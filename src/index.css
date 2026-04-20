@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream-50 text-gray-800 font-sans antialiased;
+  }
+  h1, h2, h3 {
+    @apply font-serif;
+  }
+}
+
+@layer utilities {
+  .leaflet-container {
+    @apply rounded-xl2 overflow-hidden;
+    font-family: inherit;
+  }
+
+  /* Natural texture overlay on map */
+  .map-wrapper::after {
+    content: '';
+    pointer-events: none;
+    @apply absolute inset-0 rounded-xl2;
+    background: linear-gradient(to bottom, transparent 70%, rgba(242,247,244,0.4) 100%);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-cream-100; }
+  ::-webkit-scrollbar-thumb { @apply bg-forest-300 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-forest-500; }
+
+  /* Skeleton shimmer */
+  @keyframes shimmer {
+    0%   { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
+  .skeleton {
+    background: linear-gradient(90deg, #e8eee9 25%, #d4e8d4 50%, #e8eee9 75%);
+    background-size: 800px 100%;
+    animation: shimmer 1.6s infinite linear;
+  }
+
+  /* Card hover lift */
+  .card-hover {
+    @apply transition-all duration-200;
+  }
+  .card-hover:hover {
+    @apply -translate-y-1 shadow-lg;
+  }
+
+  /* Dark mode map tiles — invert OSM tiles to approximate a dark map */
+  .dark .leaflet-tile,
+  .map-dark .leaflet-tile {
+    filter: invert(1) hue-rotate(180deg) brightness(0.85);
+  }
+}
+
+/* ── Print stylesheet ──────────────────────────────────────────────────────── */
+@media print {
+  /* Hide all navigation and interactive UI */
+  header, nav, footer,
+  .filter-panel, .map-container,
+  .comparison-bar, .garden-panel,
+  .share-buttons, .pdf-button,
+  button, .skeleton {
+    display: none !important;
+  }
+
+  /* Clean page background */
+  body, .modal-overlay {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Flower modal content */
+  .flower-modal-content {
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure photos print in color */
+  img {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    max-width: 300px !important;
+  }
+
+  /* Toxicity and status badges should print in color */
+  .toxicity-badge, .conservation-badge {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide the flower grid — only the open modal matters */
+  .flower-grid {
+    display: none !important;
+  }
+
+  /* WildHome attribution footer for printed pages */
+  .flower-modal-content::after {
+    content: "Printed from WildHome — wildhome.app";
+    display: block;
+    margin-top: 2rem;
+    font-size: 10px;
+    color: #666;
+    border-top: 1px solid #eee;
+    padding-top: 0.5rem;
+  }
+}

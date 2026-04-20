@@ -1,0 +1,42 @@
+# Netlify configuration for WildHome
+# SPA fallback: all routes serve index.html so React Router handles them client-side
+
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200
+
+# Security headers applied to every response
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    # Content-Security-Policy
+    # Restricts where the browser can load resources from.
+    # - default-src 'self': only load from our own origin by default
+    # - script-src 'unsafe-inline': Vite's bundled inline scripts require this
+    # - img-src: allow iNaturalist photo CDNs and OSM map tiles
+    # - connect-src: allow outbound fetch() to iNaturalist API and OSM geocoding
+    # - font-src: allow Google Fonts
+    # - frame-ancestors 'none': prevents this page from being embedded in an iframe (clickjacking protection)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://inaturalist-open-data.s3.amazonaws.com https://*.inaturalist.org https://*.tile.openstreetmap.org https://static.inaturalist.org; connect-src 'self' https://api.inaturalist.org https://nominatim.openstreetmap.org https://*.tile.openstreetmap.org; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'none'"
+
+    # X-Frame-Options: DENY
+    # Older browser fallback for frame-ancestors above.
+    # Prevents the page from being loaded in any <iframe> or <frame>.
+    X-Frame-Options = "DENY"
+
+    # X-Content-Type-Options: nosniff
+    # Stops browsers from guessing the MIME type of a response.
+    # Prevents certain attacks where a JS file is disguised as an image, etc.
+    X-Content-Type-Options = "nosniff"
+
+    # Referrer-Policy: strict-origin-when-cross-origin
+    # When navigating to another site, only send the origin (not the full URL path).
+    # Protects user privacy by not leaking search queries in the Referer header.
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Permissions-Policy
+    # Explicitly disables browser features this app does not use.
+    # Prevents any embedded scripts from accessing the camera, microphone, etc.
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"

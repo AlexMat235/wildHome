@@ -1,0 +1,32 @@
+{
+  "name": "WildHome — Native Wildflower Finder",
+  "short_name": "WildHome",
+  "description": "Discover native wildflowers for your region of the US.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#2d6a4f",
+  "background_color": "#fefdf8",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/flower.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["education", "lifestyle"],
+  "lang": "en-US"
+}
